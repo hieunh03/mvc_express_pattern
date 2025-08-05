@@ -92,8 +92,8 @@ class App {
   }
 
   private route(): void {
-    this.app.use('**', Container.resolve<Router>('PingModule'))
     this.app.use('/api/files', Container.resolve<Router>('FileModule'))
+    this.app.use('/', Container.resolve<Router>('PingModule'))
   }
 
   private run(): void {
