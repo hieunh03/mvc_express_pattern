@@ -13,16 +13,21 @@
 1. Trong Railway dashboard, click "New Project"
 2. Chọn "Deploy from GitHub repo"
 3. Chọn repository `express-mvc-pattern`
-4. Railway sẽ tự động detect và build ứng dụng
+4. Railway sẽ tự động detect và build ứng dụng sử dụng Dockerfile
 
 ### Cách 2: Deploy từ GitHub với cấu hình tùy chỉnh
 
 1. Trong Railway dashboard, click "New Project"
 2. Chọn "Deploy from GitHub repo"
 3. Chọn repository `express-mvc-pattern`
-4. Trong phần "Settings" của project:
-   - Build Command: `npm run build`
-   - Start Command: `npm start`
+4. Railway sẽ sử dụng Dockerfile để build và deploy
+
+### Cách 3: Deploy với Nixpacks (nếu gặp lỗi Docker)
+
+Nếu gặp lỗi với Docker, bạn có thể thử sử dụng Nixpacks:
+1. Xóa file `Dockerfile` và `.dockerignore`
+2. Đổi `railway.toml` từ `builder = "dockerfile"` thành `builder = "nixpacks"`
+3. Deploy lại
 
 ## Bước 3: Cấu hình Environment Variables
 
@@ -76,6 +81,24 @@ AWS_S3_BUCKET=your-bucket-name
 - Kiểm tra logs trong Railway dashboard
 - Đảm bảo tất cả dependencies đã được khai báo trong `package.json`
 - Kiểm tra TypeScript configuration
+
+### Lỗi Nixpacks
+Nếu gặp lỗi `undefined variable 'npm'` hoặc lỗi Nixpacks khác:
+1. Chuyển sang sử dụng Dockerfile (đã được cấu hình sẵn)
+2. Hoặc cập nhật `nixpacks.toml`:
+```toml
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+
+[phases.install]
+cmds = ["npm ci"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npm start"
+```
 
 ### Lỗi Runtime
 - Kiểm tra environment variables
