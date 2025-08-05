@@ -27,10 +27,10 @@ class TestApp {
     this.app.set('views', path.resolve(__dirname, '../src/views'))
     this.app.set('view engine', 'ejs')
     this.app.disable('x-powered-by')
-    
+
     // Initialize Firebase
     initializeFirebase()
-    
+
     Container.resolve<AppModule>(AppModule)
   }
 
@@ -83,13 +83,11 @@ class TestApp {
     try {
       const pingRouter = Container.resolve<Router>('PingModule')
       const fileRouter = Container.resolve<Router>('FileModule')
-      
+
       // Register specific routes first
       this.app.use('/api/files', fileRouter)
       this.app.use('/', pingRouter) // More specific than '**'
-      
 
-      
       console.log('Routes registered successfully')
     } catch (error) {
       console.error('Error registering routes:', error)
@@ -107,4 +105,4 @@ class TestApp {
 
 // Create and export the app for testing
 const testApp = new TestApp()
-export default testApp.createApp() 
+export default testApp.createApp()

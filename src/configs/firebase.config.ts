@@ -17,7 +17,7 @@ export const initializeFirebase = (): void => {
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount)
     })
-    
+
     console.log('Firebase Admin SDK initialized successfully')
   } catch (error) {
     console.error('Failed to initialize Firebase Admin SDK:', error)
