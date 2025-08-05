@@ -22,12 +22,12 @@
 3. Chọn repository `express-mvc-pattern`
 4. Railway sẽ sử dụng Dockerfile để build và deploy
 
-### Cách 3: Deploy với Nixpacks (nếu gặp lỗi Docker)
+### Cách 3: Deploy với Railway CLI (Tùy chọn)
 
-Nếu gặp lỗi với Docker, bạn có thể thử sử dụng Nixpacks:
-1. Xóa file `Dockerfile` và `.dockerignore`
-2. Đổi `railway.toml` từ `builder = "dockerfile"` thành `builder = "nixpacks"`
-3. Deploy lại
+1. Cài đặt Railway CLI: `npm i -g @railway/cli`
+2. Login: `railway login`
+3. Link project: `railway link`
+4. Deploy: `railway up`
 
 ## Bước 3: Cấu hình Environment Variables
 
@@ -82,23 +82,18 @@ AWS_S3_BUCKET=your-bucket-name
 - Đảm bảo tất cả dependencies đã được khai báo trong `package.json`
 - Kiểm tra TypeScript configuration
 
-### Lỗi Nixpacks
-Nếu gặp lỗi `undefined variable 'npm'` hoặc lỗi Nixpacks khác:
-1. Chuyển sang sử dụng Dockerfile (đã được cấu hình sẵn)
-2. Hoặc cập nhật `nixpacks.toml`:
-```toml
-[phases.setup]
-nixPkgs = ["nodejs_20"]
+### Lỗi Build
+- Kiểm tra logs trong Railway dashboard
+- Đảm bảo tất cả dependencies đã được khai báo trong `package.json`
+- Kiểm tra TypeScript configuration
+- Đảm bảo Dockerfile được cấu hình đúng
 
-[phases.install]
-cmds = ["npm ci"]
-
-[phases.build]
-cmds = ["npm run build"]
-
-[start]
-cmd = "npm start"
-```
+### Lỗi Docker Build
+Nếu gặp lỗi Docker build:
+1. Kiểm tra file `Dockerfile` có đúng syntax không
+2. Đảm bảo tất cả dependencies cần thiết được install
+3. Kiểm tra build process có thành công không
+4. Xem logs chi tiết trong Railway dashboard
 
 ### Lỗi Runtime
 - Kiểm tra environment variables
